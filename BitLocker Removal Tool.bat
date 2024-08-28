@@ -2,7 +2,7 @@
 setlocal
 title BitLocker Removal Tool
 echo Program Name: BitLocker Removal Tool
-echo Version: 1.1.0
+echo Version: 1.1.1
 echo Developer: @YonatanReuvenIsraeli
 echo Website: https://www.yonatanreuvenisraeli.dev
 echo License: GNU General Public License v3.0
@@ -89,7 +89,7 @@ goto "Data"
 :"Format"
 echo.
 format "%DriveLetter%" /q
-echo
+echo.
 echo Press any key to close this batch file.
 pause > nul 2>&1
 
