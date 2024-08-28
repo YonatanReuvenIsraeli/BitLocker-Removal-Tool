@@ -2,16 +2,25 @@
 setlocal
 title BitLocker Removal Tool
 echo Program Name: BitLocker Removal Tool
-echo Version: 1.0.0
+echo Version: 1.1.0
 echo Developer: @YonatanReuvenIsraeli
 echo Website: https://www.yonatanreuvenisraeli.dev
 echo License: GNU General Public License v3.0
+net session > nul 2>&1
+if not "%errorlevel%"=="0" goto "NotAdministrator"
 goto "Start"
 
+:"NotAdministrator"
+echo.
+echo Please run this batch file as an administrator. Press any key to close this batch file.
+pause > nul 2>&1
+goto "Done"
+
 :"Start"
+manage-bde -status
 echo.
 set DriveLetter=
-set /p DriveLetter="What is the drive letter of your BitLocker locked drive? (A:-Z:) "
+set /p DriveLetter="What is the drive letter of your BitLocker locked/unlocked drive? (A:-Z:) "
 if /i "%DriveLetter%"=="A:" goto "SureDriveLetter"
 if /i "%DriveLetter%"=="B:" goto "SureDriveLetter"
 if /i "%DriveLetter%"=="C:" goto "SureDriveLetter"
@@ -44,7 +53,7 @@ goto "Start"
 :"SureDriveLetter"
 echo.
 set SureDriveLetter=
-set /p SureDriveLetter="Are you sure "%DriveLetter%" is the drive letter of your BitLocker locked drive? (Yes/No) "
+set /p SureDriveLetter="Are you sure "%DriveLetter%" is the drive letter of your BitLocker locked/unlocked drive? (Yes/No) "
 if /i "%SureDriveLetter%"=="Yes" goto "CheckExistDriveLetter"
 if /i "%SureDriveLetter%"=="No" goto "Start"
 echo Invalid syntax!
@@ -52,10 +61,20 @@ goto "SureDriveLetter"
 
 :"CheckExistDriveLetter"
 if not exist "%DriveLetter%" goto "NotExist"
-goto "Data"
+goto "Status"
 
 :"NotExist"
 echo "%DriveLetter%" does not exist. Please try again.
+goto "Start"
+
+:"Status"
+manage-bde -status -p "%DriveLetter%" > nul 2>&1
+if "%errorlevel%"=="-1" echo hi
+goto "Data"
+
+:"NoBitLocker"
+pause
+echo No BitLocker on drive "%DriveLetter%"!
 goto "Start"
 
 :"Data"
