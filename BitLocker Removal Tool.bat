@@ -2,7 +2,7 @@
 setlocal
 title BitLocker Removal Tool
 echo Program Name: BitLocker Removal Tool
-echo Version: 1.1.2
+echo Version: 1.1.3
 echo Developer: @YonatanReuvenIsraeli
 echo Website: https://www.yonatanreuvenisraeli.dev
 echo License: GNU General Public License v3.0
@@ -17,6 +17,7 @@ pause > nul 2>&1
 goto "Done"
 
 :"Start"
+echo.
 manage-bde -status
 echo.
 set DriveLetter=
