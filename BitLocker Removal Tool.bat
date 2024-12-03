@@ -2,7 +2,7 @@
 setlocal
 title BitLocker Removal Tool
 echo Program Name: BitLocker Removal Tool
-echo Version: 1.1.4
+echo Version: 1.1.5
 echo Developer: @YonatanReuvenIsraeli
 echo Website: https://www.yonatanreuvenisraeli.dev
 echo License: GNU General Public License v3.0
@@ -70,12 +70,12 @@ goto "Start"
 
 :"Status"
 manage-bde -status -p "%DriveLetter%" > nul 2>&1
-if "%errorlevel%"=="-1" echo hi
+if not "%errorlevel%"=="0" goto "NoBitLocker"
 goto "Data"
 
 :"NoBitLocker"
-pause
-echo No BitLocker on drive "%DriveLetter%"!
+echo No BitLocker on drive "%DriveLetter%"! Press any key to continue.
+pause > nul 2>&1
 goto "Start"
 
 :"Data"
