@@ -2,7 +2,7 @@
 setlocal
 title BitLocker Removal Tool
 echo Program Name: BitLocker Removal Tool
-echo Version: 1.1.5
+echo Version: 1.1.6
 echo Developer: @YonatanReuvenIsraeli
 echo Website: https://www.yonatanreuvenisraeli.dev
 echo License: GNU General Public License v3.0
@@ -19,7 +19,6 @@ goto "Done"
 :"Start"
 echo.
 manage-bde -status
-echo.
 set DriveLetter=
 set /p DriveLetter="What is the drive letter of your BitLocker locked/unlocked drive? (A:-Z:) "
 if /i "%DriveLetter%"=="A:" goto "SureDriveLetter"
@@ -90,11 +89,16 @@ goto "Data"
 :"Format"
 echo.
 format "%DriveLetter%" /q
-echo.
-echo Press any key to close this batch file.
-pause > nul 2>&1
+if not "%errorlevel%"=="0" goto "Error"
 goto "Done"
+
+:"Error"
+echo Drive "%DriveLetter%" is in use! You can try again.
+goto "Start"
 
 :"Done"
 endlocal
+echo.
+echo BitLocker removed on drive letter "%DriveLetter%"! Press any key to close this batch file.
+pause > nul 2>&1
 exit
