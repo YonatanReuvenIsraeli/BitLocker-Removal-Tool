@@ -2,7 +2,7 @@
 setlocal
 title BitLocker Removal Tool
 echo Program Name: BitLocker Removal Tool
-echo Version: 1.1.6
+echo Version: 1.1.7
 echo Developer: @YonatanReuvenIsraeli
 echo Website: https://www.yonatanreuvenisraeli.dev
 echo License: GNU General Public License v3.0
@@ -80,7 +80,7 @@ goto "Start"
 :"Data"
 echo.
 set Data=
-set /P Data="All data on drive "%DriveLetter%" will be deleted. Are you sure you want to continue? (Yes/No) "
+set /p Data="All data on drive "%DriveLetter%" will be deleted. Are you sure you want to continue? (Yes/No) "
 if /i "%Data%"=="Yes" goto "Format"
 if /i "%Data%"=="No" goto "Done"
 echo Invalid syntax!
