@@ -2,10 +2,11 @@
 setlocal
 title BitLocker Removal Tool
 echo Program Name: BitLocker Removal Tool
-echo Version: 1.1.7
-echo Developer: @YonatanReuvenIsraeli
-echo Website: https://www.yonatanreuvenisraeli.dev
+echo Version: 1.1.8
 echo License: GNU General Public License v3.0
+echo Developer: @YonatanReuvenIsraeli
+echo GitHub: https://github.com/YonatanReuvenIsraeli
+echo Sponsor: https://github.com/sponsors/YonatanReuvenIsraeli 
 net session > nul 2>&1
 if not "%errorlevel%"=="0" goto "NotAdministrator"
 goto "Start"
