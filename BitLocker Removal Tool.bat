@@ -2,12 +2,12 @@
 setlocal
 title BitLocker Removal Tool
 echo Program Name: BitLocker Removal Tool
-echo Version: 1.1.8
+echo Version: 1.1.9
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
-echo Sponsor: https://github.com/sponsors/YonatanReuvenIsraeli 
-net session > nul 2>&1
+echo Sponsor: https://github.com/sponsors/YonatanReuvenIsraeli
+"%windir%\System32\net.exe" session > nul 2>&1
 if not "%errorlevel%"=="0" goto "NotAdministrator"
 goto "Start"
 
@@ -19,7 +19,13 @@ goto "Done"
 
 :"Start"
 echo.
-manage-bde -status
+echo Getting drives attached to this PC details.
+"%windir%\System32\manage-bde.exe" -status
+echo Got drives attached to this PC details.
+goto "DriveLetter"
+
+:"DriveLetter"
+echo.
 set DriveLetter=
 set /p DriveLetter="What is the drive letter of your BitLocker locked/unlocked drive? (A:-Z:) "
 if /i "%DriveLetter%"=="A:" goto "SureDriveLetter"
@@ -49,14 +55,14 @@ if /i "%DriveLetter%"=="X:" goto "SureDriveLetter"
 if /i "%DriveLetter%"=="Y:" goto "SureDriveLetter"
 if /i "%DriveLetter%"=="Z:" goto "SureDriveLetter"
 echo Invalid syntax!
-goto "Start"
+goto "DriveLetter"
 
 :"SureDriveLetter"
 echo.
 set SureDriveLetter=
 set /p SureDriveLetter="Are you sure "%DriveLetter%" is the drive letter of your BitLocker locked/unlocked drive? (Yes/No) "
 if /i "%SureDriveLetter%"=="Yes" goto "CheckExistDriveLetter"
-if /i "%SureDriveLetter%"=="No" goto "Start"
+if /i "%SureDriveLetter%"=="No" goto "DriveLetter"
 echo Invalid syntax!
 goto "SureDriveLetter"
 
@@ -66,11 +72,14 @@ goto "Status"
 
 :"NotExist"
 echo "%DriveLetter%" does not exist. Please try again.
-goto "Start"
+goto "DriveLetter"
 
 :"Status"
-manage-bde -status -p "%DriveLetter%" > nul 2>&1
+echo.
+echo Getting BitLocker status for drive "%DriveLetter%".
+"%windir%\System32\manage-bde.exe" -status -p "%DriveLetter%" > nul 2>&1
 if not "%errorlevel%"=="0" goto "NoBitLocker"
+echo Drive "%DriveLetter%" has BitLocker.
 goto "Data"
 
 :"NoBitLocker"
@@ -89,7 +98,7 @@ goto "Data"
 
 :"Format"
 echo.
-format "%DriveLetter%" /q
+"%windir%\System32\format.com" "%DriveLetter%" /q
 if not "%errorlevel%"=="0" goto "Error"
 goto "Done"
 
