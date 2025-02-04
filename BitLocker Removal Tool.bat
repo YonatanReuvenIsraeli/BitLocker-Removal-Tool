@@ -1,8 +1,8 @@
 @echo off
-setlocal
 title BitLocker Removal Tool
+setlocal
 echo Program Name: BitLocker Removal Tool
-echo Version: 1.1.9
+echo Version: 1.1.10
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
