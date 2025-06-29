@@ -2,7 +2,7 @@
 title BitLocker Removal Tool
 setlocal
 echo Program Name: BitLocker Removal Tool
-echo Version: 1.1.10
+echo Version: 2.0.0
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -97,18 +97,36 @@ echo Invalid syntax!
 goto "Data"
 
 :"Format"
+if exist "diskpart.txt" goto "DiskPartExist"
 echo.
-"%windir%\System32\format.com" "%DriveLetter%" /q
+echo Removing BitLocker on drive letter "%DriveLetter%".
+(echo sel vol "%DriveLetter%") > "DiskPart.txt
+(echo format quick override) >> "DiskPart.txt
+(echo exit) >> "DiskPart.txt
+"%windir%\System32\diskpart.exe" /s "diskpart.txt" > nul 2>&1
 if not "%errorlevel%"=="0" goto "Error"
+if /i "%DiskPart%"=="True" goto "DiskPartDone"
 goto "Done"
 
+:"DiskPartExist"
+set DiskPart=True
+echo.
+echo Please temporarily rename to something else or temporarily move to another location "diskpart.txt" in order for this batch file to proceed. "diskpart.txt" is not a system file. "diskpart.txt" is located in the folder "%cd%". Press any key to continue when "diskpart.txt" is renamed to something else or moved to another location. This batch file will let you know when you can rename it back to its original name or move it back to its original location.
+pause > nul 2>&1
+goto "Format"
+
 :"Error"
-echo Drive "%DriveLetter%" is in use! You can try again.
+echo There has been an error! You can try again.
 goto "Start"
 
-:"Done"
-endlocal
+:"DiskPartDone"
 echo.
+echo You can now rename or move back the file back to "diskpart.txt". Press any key to continue.
+pause > nul 2>&1
+goto "Done"
+
+:"Done"
 echo BitLocker removed on drive letter "%DriveLetter%"! Press any key to close this batch file.
+endlocal
 pause > nul 2>&1
 exit
