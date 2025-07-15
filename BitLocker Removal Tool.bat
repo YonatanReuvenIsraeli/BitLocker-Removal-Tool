@@ -2,7 +2,7 @@
 title BitLocker Removal Tool
 setlocal
 echo Program Name: BitLocker Removal Tool
-echo Version: 2.0.1
+echo Version: 2.0.2
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -100,9 +100,9 @@ goto "Data"
 if exist "diskpart.txt" goto "DiskPartExist"
 echo.
 echo Removing BitLocker on drive letter "%DriveLetter%".
-(echo sel vol "%DriveLetter%") > "DiskPart.txt
-(echo format quick override) >> "DiskPart.txt
-(echo exit) >> "DiskPart.txt
+(echo sel vol %DriveLetter%) > "DiskPart.txt"
+(echo format quick override) >> "DiskPart.txt"
+(echo exit) >> "DiskPart.txt"
 "%windir%\System32\diskpart.exe" /s "diskpart.txt" > nul 2>&1
 if not "%errorlevel%"=="0" goto "Error"
 if /i "%DiskPart%"=="True" goto "DiskPartDone"
