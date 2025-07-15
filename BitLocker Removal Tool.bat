@@ -2,7 +2,7 @@
 title BitLocker Removal Tool
 setlocal
 echo Program Name: BitLocker Removal Tool
-echo Version: 2.0.0
+echo Version: 2.0.1
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -121,7 +121,7 @@ goto "Start"
 
 :"DiskPartDone"
 echo.
-echo You can now rename or move back the file back to "diskpart.txt". Press any key to continue.
+echo You can now rename or move the file back to "diskpart.txt". Press any key to continue.
 pause > nul 2>&1
 goto "Done"
 
